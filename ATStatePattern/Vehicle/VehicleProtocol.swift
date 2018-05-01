@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol VehicleProtocol
+protocol VehicleProtocol: class
 {
     // MARK: - Vehicle State
     var speed: Int { get set }

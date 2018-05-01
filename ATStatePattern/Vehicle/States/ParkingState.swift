@@ -10,7 +10,7 @@ import Foundation
 
 class ParkingState: VehicleState
 {
-    private var vehicle: VehicleProtocol
+    private weak var vehicle: VehicleProtocol?
     private var parking: Bool = false
     
     required init(_ vehicle: VehicleProtocol) {
@@ -41,6 +41,8 @@ class ParkingState: VehicleState
     private func stopParking() {
         print("Vehicle has stopped parking")
         self.parking = false
-        self.vehicle.setState(self.vehicle.getStoppedState())
+        if let stoppedState = self.vehicle?.getStoppedState() {
+            self.vehicle?.setState(stoppedState)
+        }
     }
 }

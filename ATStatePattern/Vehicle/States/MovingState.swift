@@ -10,21 +10,21 @@ import Foundation
 
 class MovingState: VehicleState
 {
-    private var vehicle: VehicleProtocol
+    private weak var vehicle: VehicleProtocol?
     
     required init(_ vehicle: VehicleProtocol) {
         self.vehicle = vehicle
     }
     
     func accelerate() {
-        self.vehicle.speed += 5
+        self.vehicle?.speed += 5
     }
     
     func brake() {
-        self.vehicle.speed -= 5
-        if self.vehicle.speed == 0 {
+        self.vehicle?.speed -= 5
+        if self.vehicle?.speed == 0, let stoppedState = self.vehicle?.getStoppedState() {
             print("Vehicle braked to a stop")
-            self.vehicle.setState(self.vehicle.getStoppedState())
+            self.vehicle?.setState(stoppedState)
         }
     }
     

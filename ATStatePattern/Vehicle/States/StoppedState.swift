@@ -10,15 +10,17 @@ import Foundation
 
 class StoppedState: VehicleState
 {
-    private var vehicle: VehicleProtocol
+    private weak var vehicle: VehicleProtocol?
     
     required init(_ vehicle: VehicleProtocol) {
         self.vehicle = vehicle
     }
     
     func accelerate() {
-        self.vehicle.speed += 5
-        self.vehicle.setState(self.vehicle.getMovingState())
+        self.vehicle?.speed += 5
+        if let movingState = self.vehicle?.getMovingState() {
+            self.vehicle?.setState(movingState)
+        }
     }
     
     func brake() {
@@ -26,8 +28,9 @@ class StoppedState: VehicleState
     }
     
     func park() {
-        let parkingState = self.vehicle.getParkingState()
-        self.vehicle.setState(parkingState)
-        parkingState.park()
+        if let parkingState = self.vehicle?.getParkingState() {
+            self.vehicle?.setState(parkingState)
+            parkingState.park()
+        }
     }
 }
